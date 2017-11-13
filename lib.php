@@ -216,6 +216,35 @@ if (isset($_POST['fetch_prog'])) {
 
 }
 
+if (isset($_POST['fetch_pos'])) {
+    
+    $type = $_POST['fetch_pos'];
+
+    function fetchPosition($type)
+    {
+        $data = $GLOBALS['db']->query('SELECT * FROM position WHERE type = "' . $type . '"');
+        $result = $data->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+
+
+    $positions = fetchPosition($type);
+
+
+    if (sizeof($positions) < 1) {
+        echo "<option value='none'>Select Position</option>";
+    }
+    else
+    {
+        echo "<option value='none'>Select Position</option>";
+        foreach ($positions as $position) {
+            echo "<option value='" . $position['id'] . "'>" . $position['name'] . "</option>";
+        }
+    }
+
+}
+
 if (isset($_POST['functionName'])) {
     
     if ($_POST['functionName'] == "addDepartment") {
