@@ -246,7 +246,7 @@ function checkForm()
 		<?php getActive("ac","in","in","in","in","in"); ?>
 		<?php require_once("dashboard_header.php"); ?>
 		<div class="content">
-			<div class="content-header">Faculty</div>
+			<div class="content-header">Non-Faculty</div>
 			<?php if (!empty($_SESSION['added_SD'])): 
 
 				$program = fetchProgram($_SESSION['added_SD'][0]);
@@ -288,7 +288,7 @@ function checkForm()
 					</select>
 					<div class="sex-error">This field is required. </div>
 					<label>Department*</label>
-					<select name="department" id="dep_select" name="dep_id" class="disaggregation-input-text req" onchange="fetchPos('faculty')">
+					<select name="department" id="dep_select" name="dep_id" class="disaggregation-input-text req" onchange="fetchPos('non-faculty')">
 						<option value="none" >Select College First</option>
 					</select>
 					<div class="sex-error">This field is required. </div>
