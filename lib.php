@@ -151,11 +151,36 @@ function fetchProgram($id)
     return $result;
 }
 
+function fetchPos($id)
+{
+    $data = $GLOBALS['db']->query('SELECT * FROM position WHERE id = "' . $id . '";');
+    $result = $data->fetch(PDO::FETCH_ASSOC);
+    return $result;
+}
+
 function fetchSDStudent()
 {
     $data = $GLOBALS['db']->query('SELECT D.alias AS department, P.name AS program, P.alias AS alias, SD.male_q AS male_q, 
         SD.female_q AS female_q, SD.semester AS semester, SD.school_year AS schoolyear FROM sex_disaggregation SD 
         INNER JOIN department D ON (D.id = SD.dep_id) INNER JOIN program P ON (P.id = SD.ref_id) WHERE SD.type = "Student"');
+    $result = $data->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
+}
+
+function fetchSDFaculty()
+{
+    $data = $GLOBALS['db']->query('SELECT D.alias AS department, P.name AS position, SD.male_q AS male_q, 
+        SD.female_q AS female_q, SD.semester AS semester, SD.school_year AS schoolyear FROM sex_disaggregation SD 
+        INNER JOIN department D ON (D.id = SD.dep_id) INNER JOIN position P ON (P.id = SD.ref_id) WHERE SD.type = "Faculty"');
+    $result = $data->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
+}
+
+function fetchSDNfaculty()
+{
+    $data = $GLOBALS['db']->query('SELECT D.alias AS department, P.name AS position, SD.male_q AS male_q, 
+        SD.female_q AS female_q, SD.semester AS semester, SD.school_year AS schoolyear FROM sex_disaggregation SD 
+        INNER JOIN department D ON (D.id = SD.dep_id) INNER JOIN position P ON (P.id = SD.ref_id) WHERE SD.type = "Non-Faculty"');
     $result = $data->fetchAll(PDO::FETCH_ASSOC);
     return $result;
 }
@@ -446,6 +471,102 @@ if (isset($_POST['functionName'])) {
         if ($count < 1) 
         {
             addSDStudent($_POST['args'][0], $_POST['args'][1], $_POST['args'][2], $_POST['args'][3],
+            $_POST['args'][4], $_POST['args'][5], $_POST['args'][6]);
+            echo $count;
+            session_start();
+            $_SESSION['added_SD'] = [$_POST['args'][2], $_POST['args'][5], $_POST['args'][6]];
+        }
+        else
+        {
+            echo $count;
+        }
+        
+    }
+
+    if ($_POST['functionName'] == "addSDFaculty")
+    {
+
+        function addSDFaculty($college, $department, $reference, $male_q, $female_q, $semester, $schoolyear)
+        {
+            $link = $GLOBALS['db'];
+            $link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $statement = $link->prepare("INSERT INTO sex_disaggregation(type, dep_id, ref_id, 
+                male_q, female_q, semester, school_year)
+            VALUES(:type, :dep_id, :ref_id, :male_q, :female_q, :semester, :school_year)");
+
+            $statement->execute($todo = [
+                'type' => "Faculty",
+                'dep_id' => $department,
+                'ref_id' => $reference,
+                'male_q' => $male_q,
+                'female_q' => $female_q,
+                'semester' => $semester,
+                'school_year' => $schoolyear
+            ]);
+        }
+
+        function checkSDFaculty($dep_id, $ref_id, $semester, $schoolyear)
+        {
+            $data = $GLOBALS['db']->query('SELECT COUNT(*) FROM sex_disaggregation WHERE 
+                type ="Faculty" AND dep_id ="' . $dep_id . '" AND ref_id ="' . $ref_id . 
+                '" AND semester ="' . $semester . '" AND school_year ="' . $schoolyear . '";');
+            $result = $data->fetch(PDO::FETCH_ASSOC);
+            return $result;
+        }
+
+        $count = checkSDFaculty($_POST['args'][1], $_POST['args'][2], $_POST['args'][5], $_POST['args'][6])['COUNT(*)'];       
+        
+        if ($count < 1) 
+        {
+            addSDFaculty($_POST['args'][0], $_POST['args'][1], $_POST['args'][2], $_POST['args'][3],
+            $_POST['args'][4], $_POST['args'][5], $_POST['args'][6]);
+            echo $count;
+            session_start();
+            $_SESSION['added_SD'] = [$_POST['args'][2], $_POST['args'][5], $_POST['args'][6]];
+        }
+        else
+        {
+            echo $count;
+        }
+        
+    }
+
+    if ($_POST['functionName'] == "addSDNfaculty")
+    {
+
+        function addSDNfaculty($college, $department, $reference, $male_q, $female_q, $semester, $schoolyear)
+        {
+            $link = $GLOBALS['db'];
+            $link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $statement = $link->prepare("INSERT INTO sex_disaggregation(type, dep_id, ref_id, 
+                male_q, female_q, semester, school_year)
+            VALUES(:type, :dep_id, :ref_id, :male_q, :female_q, :semester, :school_year)");
+
+            $statement->execute($todo = [
+                'type' => "Non-Faculty",
+                'dep_id' => $department,
+                'ref_id' => $reference,
+                'male_q' => $male_q,
+                'female_q' => $female_q,
+                'semester' => $semester,
+                'school_year' => $schoolyear
+            ]);
+        }
+
+        function checkSDNfaculty($dep_id, $ref_id, $semester, $schoolyear)
+        {
+            $data = $GLOBALS['db']->query('SELECT COUNT(*) FROM sex_disaggregation WHERE 
+                type ="Student" AND dep_id ="' . $dep_id . '" AND ref_id ="' . $ref_id . 
+                '" AND semester ="' . $semester . '" AND school_year ="' . $schoolyear . '";');
+            $result = $data->fetch(PDO::FETCH_ASSOC);
+            return $result;
+        }
+
+        $count = checkSDNfaculty($_POST['args'][1], $_POST['args'][2], $_POST['args'][5], $_POST['args'][6])['COUNT(*)'];       
+        
+        if ($count < 1) 
+        {
+            addSDNfaculty($_POST['args'][0], $_POST['args'][1], $_POST['args'][2], $_POST['args'][3],
             $_POST['args'][4], $_POST['args'][5], $_POST['args'][6]);
             echo $count;
             session_start();

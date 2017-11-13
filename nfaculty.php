@@ -5,7 +5,7 @@ require_once("lib.php");
 
 $colleges = fetchAllCollege();
 $departments = fetchAllDepartment();
-$SDstudents = fetchSDStudent();
+$SDs = fetchSDNfaculty();
 
 
 ?>
@@ -167,12 +167,12 @@ function checkForm()
 		$.ajax({
 			type: 'post',
 			url: 'lib.php',
-			data: {functionName: 'addSDStudent', args: data},
+			data: {functionName: 'addSDNfaculty', args: data},
 			success: function (response) 
 			{
 				if (response == 0)
 				{
-					window.location = "student.php";
+					window.location = "nfaculty.php";
 				}
 				else
 				{
@@ -249,7 +249,7 @@ function checkForm()
 			<div class="content-header">Non-Faculty</div>
 			<?php if (!empty($_SESSION['added_SD'])): 
 
-				$program = fetchProgram($_SESSION['added_SD'][0]);
+				$pos = fetchPos($_SESSION['added_SD'][0]);
 
 			?>
 
@@ -266,7 +266,7 @@ function checkForm()
 
 				</script>
 				<div id="success-box" class="success-box-acc"><span class='fa fa-times-circle success-close' 
-					onclick='success_hide()'></span><?php echo $program['alias'] . " of " . $_SESSION['added_SD'][1] . " year " . $_SESSION['added_SD'][2]; ?> has been successfully added.</div>
+					onclick='success_hide()'></span><?php echo $pos['name'] . " of " . $_SESSION['added_SD'][1] . " year " . $_SESSION['added_SD'][2]; ?> has been successfully added.</div>
 
 				<?php $_SESSION['added_SD'] = null ?>
 			<?php endif ?>
@@ -339,7 +339,7 @@ function checkForm()
 				<div class="content-line"></div>
 				<table id='tbl' class='sd-table'>
 					<tr>
-						<th>Program [Alias]</th>
+						<th>Position</th>
 						<th>Department</th>
 						<th>Male</th>
 						<th>Female</th>
@@ -348,23 +348,23 @@ function checkForm()
 						<th>Action</th>
 					</tr>
 					<?php $x=0; 
-					foreach ($SDstudents as $SDstudent): ?>
+					foreach ($SDs as $SD): ?>
 					<tr>
 					<?php if ($x%2 == 0): ?>
-						<td class="row-2"><?php echo $SDstudent['program'] . " [" . $SDstudent['alias'] . "]" ?></td>
-						<td class="row-2"><?php echo $SDstudent['department'] ?></td>					
-						<td class="row-2"><?php echo $SDstudent['male_q'] ?></td>
-						<td class="row-2"><?php echo $SDstudent['female_q'] ?></td>
-						<td class="row-2"><?php echo $SDstudent['semester'] ?></td>
-						<td class="row-2"><?php echo $SDstudent['schoolyear'] ?></td>
+						<td class="row-2"><?php echo $SD['position'] ?></td>
+						<td class="row-2"><?php echo $SD['department'] ?></td>					
+						<td class="row-2"><?php echo $SD['male_q'] ?></td>
+						<td class="row-2"><?php echo $SD['female_q'] ?></td>
+						<td class="row-2"><?php echo $SD['semester'] ?></td>
+						<td class="row-2"><?php echo $SD['schoolyear'] ?></td>
 						<td class="row-2">Edit / Delete</td>
 					<?php else: ?>
-						<td><?php echo $SDstudent['program'] . " [" . $SDstudent['alias'] . "]" ?></td>
-						<td><?php echo $SDstudent['department'] ?></td>					
-						<td><?php echo $SDstudent['male_q'] ?></td>
-						<td><?php echo $SDstudent['female_q'] ?></td>
-						<td><?php echo $SDstudent['semester'] ?></td>
-						<td><?php echo $SDstudent['schoolyear'] ?></td>
+						<td><?php echo $SD['position'] ?></td>
+						<td><?php echo $SD['department'] ?></td>					
+						<td><?php echo $SD['male_q'] ?></td>
+						<td><?php echo $SD['female_q'] ?></td>
+						<td><?php echo $SD['semester'] ?></td>
+						<td><?php echo $SD['schoolyear'] ?></td>
 						<td>Edit / Delete</td>
 					<?php endif; ?>
 					</tr>
