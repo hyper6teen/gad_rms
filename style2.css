@@ -1,0 +1,192 @@
+*{
+	margin: 0px;
+	padding: 0px;
+	font-family: "Arial";
+	list-style: none;
+	text-decoration: none;
+}
+
+.wrapper
+{
+	width: 100%;
+	margin: 0 auto;
+}
+
+/*admin panel sidebar*/
+
+.sidebar
+{
+	width: 70px;
+	background-color: #2a3f54;
+	height: 100%;
+	float: left;
+	color: #ecf0f1;
+}
+
+.sidebar-header
+{
+	padding: 10px;
+}
+
+.sidebar-profile
+{
+	display: none;
+	padding: 10px;
+	font-size: 15px;
+}
+
+.sidebar-profile img
+{
+	border-radius: 50%;
+	border-image-outset: 10px;
+	border: 5px solid #ecf0f1;
+	overflow: hidden;
+	display: inline-block;
+}
+
+.sidebar-profile span
+{
+	padding-top: 11px;
+	padding-left: 15px;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.sidebar-profile span div:first-child
+{
+	color: #9ab8b4;
+	font-size: 14px;
+	padding-bottom: 5px;
+}
+
+.menu
+{
+	font-size: 12px;
+	font-weight: bolder;
+	padding: 15px;
+}
+
+.sidebar-options
+{
+	cursor: pointer;
+	display: inline-flex;
+}
+
+.sidebar-options > div
+{
+	padding: 15px;
+	padding-left: 12px;
+	width: 40px;
+	display: inline-flex;
+	background-color: #2a3f54;
+	display: block;
+
+}
+
+.sidebar-options:hover .sidebar-name
+{
+	border-top: 1px solid #536271;
+	border-bottom: 1px solid #202f3f;
+	padding-top: 14px;
+	padding-bottom: 14px;
+	width: 38px;
+	border-right: 5px solid #1abb9c;	
+}
+
+.sidebar-options:hover .dropdown
+{
+	display: block;
+}
+
+.dropdown
+{
+	float: left;
+	position: absolute;
+	z-index: 1;
+	background-color: #2a3f54;
+	display: none;
+	-webkit-transition: max-height 0.3s;
+	-moz-transition: max-height 0.3s;
+	transition: max-height 0.3s;
+}
+
+.dropdown li
+{
+	font-size: 12px;
+}
+
+.dropdown li span
+{
+	display: none;
+}
+
+.dropdown li a
+{
+	text-decoration: none;
+	color: #ecf0f1;
+	padding: 10px;
+	padding-left: 20px;
+	display: inline-flex;
+	width: 165px;
+}
+
+.dropdown li:hover
+{
+	background-color: #34485c;
+}
+
+.sidebar-cover
+{
+	height: 150px;
+	background-color: #2a3f54;
+}
+
+.icon
+{
+	min-width: 40px;
+	display: block;
+	text-align: center;
+}
+
+.sidebar-menu
+{
+	font-size: 9px;
+	font-weight: bolder;
+	vertical-align: middle;
+	min-width: 160px;
+	display: none;
+}
+
+.sidebar-title
+{
+	font-weight: bolder;
+	font-size: 20px;
+	padding-top: 10px;
+	padding-left: 10px;
+	display: none;
+}
+
+.drop-btn
+{
+	height: 0px;
+	visibility: hidden;
+}
+
+/*header*/
+.header
+{
+	background-color: #ededed;
+	height: 55px;
+	border: 1px solid #d9dee4;
+}
+
+.header-bar
+{
+	color: #5a738e;
+	padding: 12px;
+	cursor: pointer;
+}
+.header-bar:hover
+{
+	color: #2a3f54;
+}
