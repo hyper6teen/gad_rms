@@ -221,6 +221,45 @@ function checkForm()
 
 }
 
+$(document).ready(function(){
+
+	$('.prompt-body').click(function(e){
+
+		if (e.target !== this)
+		{
+	    	return;
+	    }
+
+		$('.prompt-body').css('display', 'none');
+
+	});
+});
+
+
+function showPrompt(type, id)
+{
+
+	var prompt_id = "#prompt".concat(id);
+
+	$(prompt_id).css('display', 'block');
+
+	if (type === "del") 
+	{
+		var box_id = "#delete-box".concat(id);
+		$(box_id).css('display', 'block');
+		$(box_id).css('width', '400px');
+		$(box_id).css('height', '250px');
+		$(box_id).css('margin-top', '150px');
+
+	}
+	else if (type === "edit")
+	{
+
+	}
+}
+
+
+
 
 </script>
 
@@ -332,6 +371,24 @@ function checkForm()
 					</tr>
 					<?php $x=0; 
 					foreach ($SDstudents as $SDstudent): ?>
+					<div id='prompt<?php echo $SDstudent["id"]; ?>' class='prompt-body'>
+						<div id='delete-box<?php echo $SDstudent["id"]; ?>' class='prompt-box'>
+							<p>Are you sure you want to delete?</p>
+							<div class='content-line'>
+							</div>
+							<p><?php echo $SDstudent['department'] ?></p>
+							<span><?php echo $SDstudent['program'] ?></span>
+							<form method='post'>
+								<input type='hidden' name='id' value='<?php echo $SDstudent["id"] ?>'>
+								<input type='submit' value='Confirm'>
+							</form>
+						</div>
+						<!-- <div id='edit-box' class='prompt-box'>
+							<p>Fill up and edit all required fields.</p>
+							<div class='content-line'>
+							</div>
+						</div> -->
+					</div>
 					<tr>
 					<?php if ($x%2 == 0): ?>
 						<td class="row-2"><?php echo $SDstudent['program'] . " [" . $SDstudent['alias'] . "]" ?></td>
@@ -340,7 +397,10 @@ function checkForm()
 						<td class="row-2"><?php echo $SDstudent['female_q'] ?></td>
 						<td class="row-2"><?php echo $SDstudent['semester'] ?></td>
 						<td class="row-2"><?php echo $SDstudent['schoolyear'] ?></td>
-						<td class="row-2">Edit / Delete</td>
+						<td class="row-2">
+							<button class='tbl-edit'>Edit</button>
+							<button class='tbl-del' onclick='showPrompt("del", "<?php echo $SDstudent['id'] ?>")'>Delete</button>
+						</td>
 					<?php else: ?>
 						<td><?php echo $SDstudent['program'] . " [" . $SDstudent['alias'] . "]" ?></td>
 						<td><?php echo $SDstudent['department'] ?></td>					
@@ -348,7 +408,10 @@ function checkForm()
 						<td><?php echo $SDstudent['female_q'] ?></td>
 						<td><?php echo $SDstudent['semester'] ?></td>
 						<td><?php echo $SDstudent['schoolyear'] ?></td>
-						<td>Edit / Delete</td>
+						<td>
+							<button class='tbl-edit'>Edit</button>
+							<button class='tbl-del' onclick='showPrompt("del", "<?php echo $SDstudent['id'] ?>")'>Delete</button>
+						</td>
 					<?php endif; ?>
 					</tr>
 					<?php $x++; endforeach; ?>

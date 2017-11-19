@@ -160,7 +160,7 @@ function fetchPos($id)
 
 function fetchSDStudent()
 {
-    $data = $GLOBALS['db']->query('SELECT D.alias AS department, P.name AS program, P.alias AS alias, SD.male_q AS male_q, 
+    $data = $GLOBALS['db']->query('SELECT SD.id AS id, D.alias AS department, P.name AS program, P.alias AS alias, SD.male_q AS male_q, 
         SD.female_q AS female_q, SD.semester AS semester, SD.school_year AS schoolyear FROM sex_disaggregation SD 
         INNER JOIN department D ON (D.id = SD.dep_id) INNER JOIN program P ON (P.id = SD.ref_id) WHERE SD.type = "Student"');
     $result = $data->fetchAll(PDO::FETCH_ASSOC);
@@ -169,7 +169,7 @@ function fetchSDStudent()
 
 function fetchSDFaculty()
 {
-    $data = $GLOBALS['db']->query('SELECT D.alias AS department, P.name AS position, SD.male_q AS male_q, 
+    $data = $GLOBALS['db']->query('SELECT SD.id AS id, D.alias AS department, P.name AS position, SD.male_q AS male_q, 
         SD.female_q AS female_q, SD.semester AS semester, SD.school_year AS schoolyear FROM sex_disaggregation SD 
         INNER JOIN department D ON (D.id = SD.dep_id) INNER JOIN position P ON (P.id = SD.ref_id) WHERE SD.type = "Faculty"');
     $result = $data->fetchAll(PDO::FETCH_ASSOC);
@@ -178,7 +178,7 @@ function fetchSDFaculty()
 
 function fetchSDNfaculty()
 {
-    $data = $GLOBALS['db']->query('SELECT D.alias AS department, P.name AS position, SD.male_q AS male_q, 
+    $data = $GLOBALS['db']->query('SELECT SD.id AS id, D.alias AS department, P.name AS position, SD.male_q AS male_q, 
         SD.female_q AS female_q, SD.semester AS semester, SD.school_year AS schoolyear FROM sex_disaggregation SD 
         INNER JOIN department D ON (D.id = SD.dep_id) INNER JOIN position P ON (P.id = SD.ref_id) WHERE SD.type = "Non-Faculty"');
     $result = $data->fetchAll(PDO::FETCH_ASSOC);
