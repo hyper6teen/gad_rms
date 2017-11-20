@@ -8,6 +8,17 @@ $departments = fetchAllDepartment();
 $SDstudents = fetchSDStudent();
 
 
+if (isset($_POST['query'])) {
+	
+	if($_POST['query'] === 'delete')
+	{
+		deleteSDbyID($_POST['id']);
+		
+	}
+
+}
+
+
 ?>
 
 <html>
@@ -235,6 +246,11 @@ $(document).ready(function(){
 	});
 });
 
+function hidePrompt()
+{
+	$('.prompt-body').css('display', 'none');
+}
+
 
 function showPrompt(type, id)
 {
@@ -291,6 +307,30 @@ function showPrompt(type, id)
 					onclick='success_hide()'></span><?php echo $program['alias'] . " of " . $_SESSION['added_SD'][1] . " year " . $_SESSION['added_SD'][2]; ?> has been successfully added.</div>
 
 				<?php $_SESSION['added_SD'] = null ?>
+			<?php endif ?>
+
+			<?php if (!empty($_SESSION['deletedSD'])): 
+
+			?>
+
+				<script type="text/javascript">
+
+				$(document).ready(function(){
+
+					var add = document.getElementById("disaggregation-add-body");
+					var view = document.getElementById("disaggregation-view-body");
+					view.style.display = "block";
+					add.style.display = "none";
+					$("#viewtab").addClass("active-tab").removeClass("inactive-tab");
+					$("#addtab").removeClass("active-tab").addClass("inactive-tab");
+
+				});
+
+				</script>
+				<div id="success-box" class="success-box-acc"><span class='fa fa-times-circle success-close' 
+					onclick='success_hide()'></span><?php echo $_SESSION['deletedSD']['program'] . " of " . $_SESSION['deletedSD']['department'] . " year " . $_SESSION['deletedSD']['year']; ?> has been successfully deleted.</div>
+
+				<?php $_SESSION['deletedSD'] = null ?>
 			<?php endif ?>
 			<div class="content-tab">
 				<input id="addtab" onclick="tabs(this.value, this.id)" class="active-tab" type="submit" value="Add">
@@ -379,8 +419,16 @@ function showPrompt(type, id)
 							<p><?php echo $SDstudent['department'] ?></p>
 							<span><?php echo $SDstudent['program'] ?></span>
 							<form method='post'>
+								<input type="hidden" name="alias" value="<?php echo $SDstudent['alias'] ?>">
+								<input type="hidden" name="department" value="<?php echo $SDstudent['department'] ?>">
+								<input type="hidden" name="semester" value="<?php echo $SDstudent['semester'] ?>">
+								<input type="hidden" name="year" value="<?php echo $SDstudent['year'] ?>">
 								<input type='hidden' name='id' value='<?php echo $SDstudent["id"] ?>'>
-								<input type='submit' value='Confirm'>
+								<input type="hidden" name="query" value='delete'>
+								<div>
+									<input type='submit' value='Confirm'>
+									<button onclick="hidePrompt()" type='button'>Cancel</button>
+								</div>
 							</form>
 						</div>
 						<!-- <div id='edit-box' class='prompt-box'>

@@ -185,6 +185,22 @@ function fetchSDNfaculty()
     return $result;
 }
 
+function deleteSDbyID($id)
+{
+    $link = $GLOBALS['db'];
+    $link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $statement = $link->prepare('DELETE FROM sex_disaggregation WHERE id = :id;');
+    $statement->bindParam(':id', $id);
+    $statement->execute();
+
+    $_SESSION['deletedSD'] = ['program' => $_POST['program'],
+                            'department' => $_POST['department'],
+                            'year' => $_POST['year']
+                            ];
+
+    header('Location: student.php');
+}
+
 
 if (isset($_POST['fetch_dep'])) {
     
