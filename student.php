@@ -12,7 +12,7 @@ if (isset($_POST['query'])) {
 	
 	if($_POST['query'] === 'delete')
 	{
-		deleteSDbyID($_POST['id']);
+		deleteSDbyID($_POST['id'], $_POST['type']);
 		
 	}
 
@@ -328,9 +328,9 @@ function showPrompt(type, id)
 
 				</script>
 				<div id="success-box" class="success-box-acc"><span class='fa fa-times-circle success-close' 
-					onclick='success_hide()'></span><?php echo $_SESSION['deletedSD']['program'] . " of " . $_SESSION['deletedSD']['department'] . " year " . $_SESSION['deletedSD']['year']; ?> has been successfully deleted.</div>
+					onclick='success_hide()'></span><?php echo $_SESSION['deletedSD']['program'] . " of " . $_SESSION['deletedSD']['semester'] . " year " . $_SESSION['deletedSD']['year']; ?> has been successfully deleted.</div>
 
-				<?php $_SESSION['deletedSD'] = null ?>
+				<?php //$_SESSION['deletedSD'] = null; ?>
 			<?php endif ?>
 			<div class="content-tab">
 				<input id="addtab" onclick="tabs(this.value, this.id)" class="active-tab" type="submit" value="Add">
@@ -419,11 +419,8 @@ function showPrompt(type, id)
 							<p><?php echo $SDstudent['department'] ?></p>
 							<span><?php echo $SDstudent['program'] ?></span>
 							<form method='post'>
-								<input type="hidden" name="alias" value="<?php echo $SDstudent['alias'] ?>">
-								<input type="hidden" name="department" value="<?php echo $SDstudent['department'] ?>">
-								<input type="hidden" name="semester" value="<?php echo $SDstudent['semester'] ?>">
-								<input type="hidden" name="year" value="<?php echo $SDstudent['year'] ?>">
 								<input type='hidden' name='id' value='<?php echo $SDstudent["id"] ?>'>
+								<input type='hidden' name='type' value='<?php echo $SDstudent["type"] ?>'>
 								<input type="hidden" name="query" value='delete'>
 								<div>
 									<input type='submit' value='Confirm'>

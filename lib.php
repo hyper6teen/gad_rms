@@ -160,7 +160,7 @@ function fetchPos($id)
 
 function fetchSDStudent()
 {
-    $data = $GLOBALS['db']->query('SELECT SD.id AS id, D.alias AS department, P.name AS program, P.alias AS alias, SD.male_q AS male_q, 
+    $data = $GLOBALS['db']->query('SELECT SD.id AS id, SD.type AS type, D.alias AS department, P.name AS program, P.alias AS alias, SD.male_q AS male_q, 
         SD.female_q AS female_q, SD.semester AS semester, SD.school_year AS schoolyear FROM sex_disaggregation SD 
         INNER JOIN department D ON (D.id = SD.dep_id) INNER JOIN program P ON (P.id = SD.ref_id) WHERE SD.type = "Student"');
     $result = $data->fetchAll(PDO::FETCH_ASSOC);
@@ -169,7 +169,7 @@ function fetchSDStudent()
 
 function fetchSDFaculty()
 {
-    $data = $GLOBALS['db']->query('SELECT SD.id AS id, D.alias AS department, P.name AS position, SD.male_q AS male_q, 
+    $data = $GLOBALS['db']->query('SELECT SD.id AS id,  SD.type AS type,D.alias AS department, P.name AS position, SD.male_q AS male_q, 
         SD.female_q AS female_q, SD.semester AS semester, SD.school_year AS schoolyear FROM sex_disaggregation SD 
         INNER JOIN department D ON (D.id = SD.dep_id) INNER JOIN position P ON (P.id = SD.ref_id) WHERE SD.type = "Faculty"');
     $result = $data->fetchAll(PDO::FETCH_ASSOC);
@@ -178,27 +178,50 @@ function fetchSDFaculty()
 
 function fetchSDNfaculty()
 {
-    $data = $GLOBALS['db']->query('SELECT SD.id AS id, D.alias AS department, P.name AS position, SD.male_q AS male_q, 
+    $data = $GLOBALS['db']->query('SELECT SD.id AS id,  SD.type AS type,D.alias AS department, P.name AS position, SD.male_q AS male_q, 
         SD.female_q AS female_q, SD.semester AS semester, SD.school_year AS schoolyear FROM sex_disaggregation SD 
         INNER JOIN department D ON (D.id = SD.dep_id) INNER JOIN position P ON (P.id = SD.ref_id) WHERE SD.type = "Non-Faculty"');
     $result = $data->fetchAll(PDO::FETCH_ASSOC);
     return $result;
 }
 
-function deleteSDbyID($id)
+function SDStudentByID($id)
 {
+    $data = $GLOBALS['db']->query('SELECT SD.id AS id, SD.type AS type, D.alias AS department, P.name AS program, P.alias AS alias, SD.male_q AS male_q, 
+        SD.female_q AS female_q, SD.semester AS semester, SD.school_year AS schoolyear FROM sex_disaggregation SD 
+        INNER JOIN department D ON (D.id = SD.dep_id) INNER JOIN program P ON (P.id = SD.ref_id) WHERE SD.type = "Student" AND SD.id = "' . $id . '"');
+    $result = $data->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
+}
+
+
+function deleteSDbyID($id, $type)
+{
+
+    if($type == "Student")
+    {
+        var_dump(SDStudentByID($id));
+        $SDstudent = SDStudentByID($id);
+
+        $_SESSION['deletedSD'] = ['program' => $SDstudent['program'],
+                                'semester' => $SDstudent['semester'],
+                                'schoolyear' => $SDstudent['schoolyear']
+                            ];
+    }
+
+
     $link = $GLOBALS['db'];
     $link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $statement = $link->prepare('DELETE FROM sex_disaggregation WHERE id = :id;');
     $statement->bindParam(':id', $id);
     $statement->execute();
 
-    $_SESSION['deletedSD'] = ['program' => $_POST['program'],
-                            'department' => $_POST['department'],
-                            'year' => $_POST['year']
-                            ];
 
-    header('Location: student.php');
+    
+
+   
+
+
 }
 
 
